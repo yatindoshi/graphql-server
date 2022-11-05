@@ -29,6 +29,11 @@ public class PostController {
         return postDao.getRecentPosts(count, offset);
     }
 
+    @QueryMapping
+    public List<Post> postsFromAuthor( @Argument String authorId) {
+        return postDao.getAuthorPosts(authorId);
+    }
+
     @SchemaMapping
     public Author author(Post post) {
         return authorDao.getAuthor(post.getAuthorId());

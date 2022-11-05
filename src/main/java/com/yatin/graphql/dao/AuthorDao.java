@@ -17,4 +17,8 @@ public class AuthorDao {
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
     }
+
+    public List<Author> getAuthors(){
+        return authors;
+    }
 }
