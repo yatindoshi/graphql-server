@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,35 +27,19 @@ public class SecurityConfig  {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(c -> c.disable())
-                // Demonstrate that method security works
-                // Best practice to use both for defense in depth
-                .authorizeRequests(requests -> requests
-                        .anyRequest().permitAll()
-                )
-                .httpBasic(withDefaults())
-                .build();
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+        return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        return encoder;
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
-//    @Bean
-//    DefaultSecurityFilterChain springWebFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(c -> c.disable())
-//                // Demonstrate that method security works
-//                // Best practice to use both for defense in depth
-////                .authorizeRequests(requests -> requests
-////                        .anyRequest().permitAll()
-////                )
-//                .httpBasic(withDefaults())
-//                .build();
-//    }
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {

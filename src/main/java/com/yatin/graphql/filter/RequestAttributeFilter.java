@@ -23,8 +23,6 @@ public class RequestAttributeFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         //((RequestFacade) request).getHeaderNames();
-
-
         request.setAttribute(NAME_ATTRIBUTE, "007");
         chain.doFilter(request, response);
     }

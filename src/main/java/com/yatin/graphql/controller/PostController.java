@@ -4,6 +4,7 @@ import com.yatin.graphql.dao.AuthorDao;
 import com.yatin.graphql.dao.PostDao;
 import com.yatin.graphql.domain.Author;
 import com.yatin.graphql.domain.Post;
+import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -14,15 +15,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@AllArgsConstructor
 public class PostController {
 
     private final PostDao postDao;
     private final AuthorDao authorDao;
-
-    public PostController(PostDao postDao, AuthorDao authorDao) {
-        this.postDao = postDao;
-        this.authorDao = authorDao;
-    }
 
     @QueryMapping
     public List<Post> recentPosts(@Argument int count, @Argument int offset) {
